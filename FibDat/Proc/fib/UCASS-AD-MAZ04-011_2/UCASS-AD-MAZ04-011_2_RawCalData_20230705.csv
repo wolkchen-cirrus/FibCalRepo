@@ -1,0 +1,4 @@
+name,folder,n,d,adc,sig_sca_real,sig_sca_measured
+UCASS-AD-MAZ04-011_13p0_tungstenfibre_20230705.csv,C:\Users\JGirdwood\Documents\MATLAB\Calibration\Calibration\Data\UCASS-AD-MAZ04-011_2,3.652+2.8i,13,1568,6.83870550926113e-11,6.32427299093966e-11
+UCASS-AD-MAZ04-011_5p5_glassfibre_20230705.csv,C:\Users\JGirdwood\Documents\MATLAB\Calibration\Calibration\Data\UCASS-AD-MAZ04-011_2,1.515+0i,5.5,2243,1.12322195300378e-10,9.04677571344238e-11
+UCASS-AD-MAZ04-011_6p0_carbonfibre_20230705.csv,C:\Users\JGirdwood\Documents\MATLAB\Calibration\Calibration\Data\UCASS-AD-MAZ04-011_2,2.541+0.02i,6,620,2.71683162051003e-11,2.50066916733583e-11

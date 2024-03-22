@@ -1,0 +1,4 @@
+name,folder,n,d,adc,sig_sca_real,sig_sca_measured
+UCASS-AD-MAZ04-009_13p0_tungstenfibre_20230705.csv,C:\Users\jg17acv\University of Hertfordshire\PI Group - Documents\Projects\UCASS\Calibration\Data\UCASS-AD-MAZ04-009_2,3.652+2.8i,13,1264,6.83870550926113e-11,5.09813843147176e-11
+UCASS-AD-MAZ04-009_5p5_glassfibre_20230705.csv,C:\Users\jg17acv\University of Hertfordshire\PI Group - Documents\Projects\UCASS\Calibration\Data\UCASS-AD-MAZ04-009_2,1.515+0i,5.5,2350,1.12322195300378e-10,9.47834281167615e-11
+UCASS-AD-MAZ04-009_6p0_carbonfibre_20230705.csv,C:\Users\jg17acv\University of Hertfordshire\PI Group - Documents\Projects\UCASS\Calibration\Data\UCASS-AD-MAZ04-009_2,2.541+0.02i,6,613,2.71683162051003e-11,2.47243580576914e-11

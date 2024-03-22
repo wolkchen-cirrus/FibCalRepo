@@ -1,0 +1,122 @@
+#!/bin/bash
+
+DIA=${@: -1}
+BSC=0
+WLEN=658.0
+M="1.51j0"
+FFS_OUT=0
+GLMT_OUT=0
+MIE_OUT=0
+OPATH=$PWD
+BSC_PARAM="500,41"
+
+######################
+PartParam () {
+  RM="$(cut -d'j' -f1 <<<"$M")"
+  IM="$(cut -d'j' -f2 <<<"$M")"
+  DSt="$(cut -d':' -f1 <<<"$DIA")"
+  DE="$(cut -d':' -f3 <<<"$DIA")"
+  DSp="$(cut -d':' -f2 <<<"$DIA")"
+  echo -en "$DSt"'\t'"$DE"'\t'"$DSp"'\n'"$RM"'\t'"$IM" > "$SIM_DIR/Parameters for particle.txt"
+}
+
+CalcParam () {
+  echo -en '2\n'"$BSC"'\t0\t1\t0' > "$SIM_DIR/Parameters for calculations.txt"
+}
+
+BeamParam () {
+  BX="$(cut -d',' -f1 <<<"$BSC_PARAM")"
+  BY="$(cut -d',' -f2 <<<"$BSC_PARAM")"
+  echo -en "$BX"'\t'"$BY"'\t' > "$SIM_DIR/Parameters of incident beam.txt"
+  printf %.10f\\n $(bc -l <<< $WLEN/1000.0) >> "$SIM_DIR/Parameters of incident beam.txt"
+  echo -en '0.0\t0.0\t0' >> "$SIM_DIR/Parameters of incident beam.txt"
+}
+######################
+
+# Process inputs
+declare opt
+declare OPTARG
+declare OPTIND
+while getopts "bp:w:m:gnf" opt; do
+  case $opt in
+    b) BSC=1;;
+    p) BSC_PARAM=$OPTARG;;
+    w) WLEN=$OPTARG;;
+    m) M=$OPTARG;;
+    g) GLMT_OUT=1;;
+    n) MIE_OUT=1;;
+    f) FFS_OUT=1;;
+    \?) echo "Invalid Option $OPTARG" && exit 1;;
+  esac
+done
+
+# Set up env
+#cd ${SIM_DIR}
+JOBID=$(($(cat "jobID.txt")+1))
+export SIM_DIR=$(pwd)
+export LOG_DIR="/tmp/"
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/bin/gcc
+export OMP_NUM_THREADS=1
+
+# Write options to logs
+PartParam
+CalcParam
+BeamParam
+
+# Avoid segfaults
+ulimit -s unlimited
+
+# Run glmt
+echo "Initialising"
+${SIM_DIR}/init_glmt.o 2>&1 | tee  ${LOG_DIR}/init_glmt_log
+echo "Starting Mie Sims"
+${SIM_DIR}/spher_f_mono_HB.o 2>&1 | tee  ${LOG_DIR}/mie_log
+echo "Starting GLMT Sims with BSC:$BSC"
+${SIM_DIR}/glmt.o 2>&1 | tee ${LOG_DIR}/glmt_log
+echo "Finalising"
+${SIM_DIR}/final_glmt.o 2>&1 | tee  ${LOG_DIR}/final_glmt_log
+
+# Add files to standard output
+echo 'START'
+echo '~~~'
+# Mie scattering output
+if [ $MIE_OUT == 1 ]; then
+  echo "MIE"
+  cat "job$JOBID/CEXT_MIE"
+  echo '~~~'
+fi
+# GLMT scattering output
+if [ $GLMT_OUT == 1 ]; then
+  echo "GLMT"
+  cat "job$JOBID/CEXT_GLMT"
+  echo '~~~'
+fi
+# Angular far-field scattering output
+if [ $FFS_OUT == 1 ]; then
+  cd "${SIM_DIR}/job$JOBID"
+  shopt -s nullglob
+  FFS_FILES=(LAM*)
+  shopt -u nullglob
+  for ((i = 0; i < ${#FFS_FILES[@]}; i++))
+  do
+    echo ${FFS_FILES[$i]}
+    cat "${FFS_FILES[$i]}"
+    echo '~~~'
+  done
+  cd ${SIM_DIR}
+fi
+echo 'END'
+
+cd $OPATH
+
+
+
+
+
+
+
+
+
+
+
+

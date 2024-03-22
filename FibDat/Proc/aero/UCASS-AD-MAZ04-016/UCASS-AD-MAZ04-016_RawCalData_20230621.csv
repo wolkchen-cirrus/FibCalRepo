@@ -1,0 +1,4 @@
+name,folder,n,d,adc,sig_sca_real,sig_sca_measured
+UCASS-AD-MAZ04-016_11p58_silica_20230621.csv,C:\Users\jg17acv\University of Hertfordshire\PI Group - Documents\Projects\UCASS\Calibration\Data\UCASS-AD-MAZ04-016,1.44,11.58,183,2.24584122041268e-11,7.38100738100738e-12
+UCASS-AD-MAZ04-016_25p6_silica_20230621.csv,C:\Users\jg17acv\University of Hertfordshire\PI Group - Documents\Projects\UCASS\Calibration\Data\UCASS-AD-MAZ04-016,1.44,25.6,2372,1.01219688311602e-10,9.5670762337429e-11
+UCASS-AD-MAZ04-016_4p5_silica_20230621.csv,C:\Users\jg17acv\University of Hertfordshire\PI Group - Documents\Projects\UCASS\Calibration\Data\UCASS-AD-MAZ04-016,1.44,4.5,52,3.34036565902927e-12,2.09733543066876e-12
